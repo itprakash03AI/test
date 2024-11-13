@@ -1,0 +1,18 @@
+# Base Framework
+streamlit>=1.28.0
+
+# Data Processing and Analysis
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Visualization
+plotly>=5.18.0
+
+# Additional Utilities
+base64>=0.4.0
+pillow>=10.0.0
+
+# Optional - for development
+# pytest>=7.4.0
+# black>=23.9.1
+# flake8>=6.1.0
