@@ -1,0 +1,136 @@
+import React, { useState } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Upload, BarChart, Activity, AlertCircle } from 'lucide-react';
+
+export default function StreamlitPreview() {
+  const [currentPage, setCurrentPage] = useState('home');
+  const [isDragging, setIsDragging] = useState(false);
+
+  const monthlyData = [
+    { name: 'Jan', cases: 65 },
+    { name: 'Feb', cases: 78 },
+    { name: 'Mar', cases: 82 },
+    { name: 'Apr', cases: 70 },
+    { name: 'May', cases: 85 },
+    { name: 'Jun', cases: 73 }
+  ];
+
+  const HomePage = () => (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-6">
+      {/* MITR Logo */}
+      <h1 className="text-6xl font-bold mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-transparent bg-clip-text">
+        MITR
+      </h1>
+      <p className="text-xl text-gray-600 mb-12">
+        AI-Powered Medical Analysis Platform
+      </p>
+
+      {/* Analysis Box */}
+      <div 
+        className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 cursor-pointer hover:-translate-y-1 transition-all"
+        onClick={() => setCurrentPage('analysis')}
+      >
+        <h2 className="text-2xl font-semibold text-blue-600 mb-4">TB Analysis</h2>
+        <p className="text-gray-600 mb-4">
+          Comprehensive tuberculosis analysis using advanced AI algorithms
+        </p>
+        <div className="text-gray-500 text-sm">
+          Click to analyze TB data →
+        </div>
+      </div>
+    </div>
+  );
+
+  const AnalysisPage = () => (
+    <div className="min-h-screen bg-gray-50 p-6">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-8 mb-8 text-white">
+        <h1 className="text-3xl font-bold mb-2">TB Analysis Dashboard</h1>
+        <p>Comprehensive analysis of tuberculosis cases and trends</p>
+      </div>
+
+      {/* File Upload */}
+      <div 
+        className={`border-2 border-dashed rounded-xl p-8 mb-8 text-center
+          ${isDragging ? 'border-blue-500 bg-blue-50' : 'border-gray-300'}`}
+        onDragEnter={() => setIsDragging(true)}
+        onDragLeave={() => setIsDragging(false)}
+        onDrop={() => setIsDragging(false)}
+      >
+        <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+        <p className="text-gray-600">Drop your TB data CSV file here</p>
+        <p className="text-gray-400 text-sm mt-2">or click to browse</p>
+      </div>
+
+      {/* Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="bg-white rounded-xl p-6 shadow-sm">
+          <h3 className="text-gray-500 mb-2">Total Cases</h3>
+          <p className="text-2xl font-bold text-blue-600">1,234</p>
+        </div>
+        <div className="bg-white rounded-xl p-6 shadow-sm">
+          <h3 className="text-gray-500 mb-2">Active Cases</h3>
+          <p className="text-2xl font-bold text-purple-600">856</p>
+        </div>
+        <div className="bg-white rounded-xl p-6 shadow-sm">
+          <h3 className="text-gray-500 mb-2">Recovery Rate</h3>
+          <p className="text-2xl font-bold text-green-600">78.5%</p>
+        </div>
+        <div className="bg-white rounded-xl p-6 shadow-sm">
+          <h3 className="text-gray-500 mb-2">Risk Level</h3>
+          <p className="text-2xl font-bold text-red-600">Moderate</p>
+        </div>
+      </div>
+
+      {/* Charts */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="bg-white rounded-xl p-6 shadow-sm">
+          <h3 className="text-xl font-semibold mb-4">Case Trends</h3>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={monthlyData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Line type="monotone" dataKey="cases" stroke="#3B82F6" strokeWidth={2} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl p-6 shadow-sm">
+          <h3 className="text-xl font-semibold mb-4">Analysis Tools</h3>
+          <div className="space-y-4">
+            <button className="w-full p-4 text-left rounded-lg hover:bg-gray-50 flex items-center gap-3">
+              <BarChart className="text-blue-600" />
+              <span>Demographic Analysis</span>
+            </button>
+            <button className="w-full p-4 text-left rounded-lg hover:bg-gray-50 flex items-center gap-3">
+              <Activity className="text-purple-600" />
+              <span>Treatment Progress</span>
+            </button>
+            <button className="w-full p-4 text-left rounded-lg hover:bg-gray-50 flex items-center gap-3">
+              <AlertCircle className="text-red-600" />
+              <span>Risk Assessment</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Back Button */}
+      <button 
+        onClick={() => setCurrentPage('home')}
+        className="mt-8 text-blue-600 hover:text-blue-700"
+      >
+        ← Back to Home
+      </button>
+    </div>
+  );
+
+  return (
+    <div>
+      {currentPage === 'home' ? <HomePage /> : <AnalysisPage />}
+    </div>
+  );
+}
