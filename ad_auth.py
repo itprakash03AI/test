@@ -114,19 +114,88 @@ def _resolve_role(username: str, groups: list) -> str:
     return "viewer"
 
 
-def _make_ldap_server(ldap3, server_url: str, connect_timeout: int, use_ssl: bool, tls_validate: bool):
-    """Build an ldap3 Server object with TLS and timeout config."""
+def _make_ldap_server(
+    ldap3,
+    server_url: str,
+    connect_timeout: int,
+    use_ssl: bool,
+    tls_validate: bool,
+    ca_file: str = "",
+    check_hostname: bool = False,
+):
+    """Build an ldap3 Server object with TLS and timeout config.
+
+    ``ca_file`` (optional): path to a PEM CA bundle used to validate the AD
+    server certificate.  If empty, falls back to the OS default trust store.
+    Ignored when ``tls_validate`` is False (all certs accepted).
+
+    ``check_hostname`` (default **False**): when True, the peer certificate's
+    CN / SAN must match the hostname in ``server_url``.  Defaults to False
+    because AD certs are almost always issued to a specific DC FQDN
+    (e.g. ``dc01.intranet.corp.com``) rather than the domain name used in
+    ``ad_server`` (e.g. ``intranet.corp.com``).
+    """
     tls = None
-    if use_ssl or server_url.startswith("ldaps://"):
+    _server_url_norm = (server_url or "").strip().lower()
+    _is_ssl = use_ssl or _server_url_norm.startswith("ldaps://")
+
+    if _is_ssl:
         import ssl as _ssl
-        validate = _ssl.CERT_REQUIRED if tls_validate else _ssl.CERT_NONE
-        tls = ldap3.Tls(validate=validate)
+
+        if not tls_validate:
+            # ── Option A: skip ALL validation (dev/testing only) ──────────
+            tls = ldap3.Tls(validate=_ssl.CERT_NONE)
+        else:
+            # ── Option B: validate cert chain ± hostname ──────────────────
+            # ldap3.Tls delegates to Python's ssl module.  When validate is
+            # CERT_REQUIRED, Python auto-sets check_hostname=True on the
+            # SSLContext — which rejects the cert if the CN/SAN doesn't
+            # match the connection target.  AD certs are almost always issued
+            # to the DC FQDN, not the domain name, so we need to override.
+            #
+            # Strategy: override the Tls instance's wrap_socket() to create
+            # our own SSLContext with check_hostname explicitly controlled.
+            _ca = ca_file
+            _do_check = check_hostname
+
+            if _ca:
+                logger.info("AD TLS: using custom CA bundle at %s", _ca)
+            logger.info(
+                "AD TLS: validate=%s  check_hostname=%s  ca_file=%s",
+                True, _do_check, _ca or "(OS default)",
+            )
+
+            # Build a normal Tls so ldap3 sees use_ssl=True.  We override
+            # wrap_socket below so the validate/ca_certs_file here are unused
+            # by ldap3, but set them for introspection/debugging.
+            tls = ldap3.Tls(
+                validate=_ssl.CERT_REQUIRED,
+                ca_certs_file=_ca if _ca else None,
+            )
+
+            # ── Monkey-patch wrap_socket on THIS instance only ────────────
+            def _custom_wrap(connection, do_handshake=False):
+                """Wrap the raw socket with our own SSLContext."""
+                ctx = _ssl.create_default_context(cafile=_ca if _ca else None)
+                ctx.check_hostname = _do_check
+                ctx.verify_mode = _ssl.CERT_REQUIRED
+                # Apply the connect_timeout to the SSL handshake too, so a
+                # bad cert doesn't hang for 22+ seconds waiting for OCSP.
+                if connection.socket and connect_timeout:
+                    connection.socket.settimeout(connect_timeout)
+                connection.socket = ctx.wrap_socket(
+                    connection.socket,
+                    server_hostname=connection.server.host,
+                    do_handshake_on_connect=do_handshake,
+                )
+
+            tls.wrap_socket = _custom_wrap
 
     return ldap3.Server(
         server_url,
-        get_info=ldap3.NONE,          # don't pre-fetch schema — avoids extra round-trip on connect
+        get_info=ldap3.NONE,
         connect_timeout=connect_timeout or None,
-        use_ssl=(use_ssl or server_url.startswith("ldaps://")),
+        use_ssl=_is_ssl,
         tls=tls,
     )
 
@@ -176,7 +245,8 @@ def lookup_ad_user(username: str) -> Optional[dict]:
     group_attr    = _auth.ad_group_attribute
 
     server = _make_ldap_server(
-        ldap3, server_url, _auth.ad_connect_timeout, _auth.ad_use_ssl, _auth.ad_tls_validate
+        ldap3, server_url, _auth.ad_connect_timeout, _auth.ad_use_ssl,
+        _auth.ad_tls_validate, _auth.ad_tls_ca_file, _auth.ad_tls_check_hostname,
     )
     _receive_timeout = getattr(_auth, "ad_receive_timeout", 10)
     try:
@@ -334,7 +404,8 @@ def authenticate_user(username: str, password: str) -> Optional[dict]:
     _receive_timeout = getattr(_auth, "ad_receive_timeout", 10)
 
     server = _make_ldap_server(
-        ldap3, server_url, _connect_timeout, _auth.ad_use_ssl, _auth.ad_tls_validate
+        ldap3, server_url, _connect_timeout, _auth.ad_use_ssl,
+        _auth.ad_tls_validate, _auth.ad_tls_ca_file, _auth.ad_tls_check_hostname,
     )
 
     # NTLM does not behave reliably over LDAPS in ldap3.
