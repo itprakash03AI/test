@@ -5,360 +5,288 @@
 <title>QueryStudio — Demo Talking Points</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-  :root {
-    --bg: #f8f9fb; --surface: #fff; --border: #e2e6ed;
-    --text: #1e293b; --muted: #64748b; --accent: #2563eb;
-    --green: #16a34a; --red: #dc2626; --orange: #d97706; --cyan: #0891b2;
-  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text);
-         max-width: 900px; margin: 0 auto; padding: 40px 32px 80px; line-height: 1.6; }
+  body { font-family: 'Inter', sans-serif; background: #f8f9fb; color: #1e293b;
+         max-width: 880px; margin: 0 auto; padding: 40px 32px 60px; line-height: 1.6; }
 
-  h1 { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
-  .subtitle { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
+  .header { margin-bottom: 28px; }
+  .header h1 { font-size: 26px; font-weight: 700; }
+  .header p { font-size: 14px; color: #64748b; margin-top: 4px; }
 
-  .section { background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
-             padding: 28px 32px; margin-bottom: 20px; }
-  .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-  .section-badge { background: var(--accent); color: #fff; font-size: 11px; font-weight: 700;
-                   padding: 3px 10px; border-radius: 20px; letter-spacing: 0.5px; }
-  .section-badge.green { background: var(--green); }
-  .section-badge.orange { background: var(--orange); }
-  .section-badge.cyan { background: var(--cyan); }
-  .section-badge.red { background: var(--red); }
-  .section h2 { font-size: 20px; font-weight: 700; }
-  .section .time { font-size: 13px; color: var(--muted); margin-left: auto; font-weight: 500; }
-  .section .slide-ref { font-size: 12px; color: var(--accent); font-weight: 500; margin-bottom: 14px; }
+  .intro { background: linear-gradient(135deg, #eff6ff, #f0fdf4); border: 1px solid #bfdbfe;
+           border-radius: 10px; padding: 20px 24px; margin-bottom: 28px; }
+  .intro p { font-size: 15px; line-height: 1.65; color: #1e293b; }
 
-  .point { margin-bottom: 18px; }
-  .point h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
-  .point ul { list-style: none; padding: 0; }
-  .point li { font-size: 14px; color: var(--muted); padding: 3px 0 3px 18px; position: relative; }
-  .point li::before { content: '\2013'; position: absolute; left: 0; color: var(--border); }
+  .demo { background: #fff; border: 1px solid #e2e6ed; border-radius: 10px;
+          padding: 24px 28px; margin-bottom: 18px; }
+  .demo-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+  .badge { font-size: 11px; font-weight: 700; color: #fff; padding: 2px 10px;
+           border-radius: 20px; letter-spacing: 0.5px; }
+  .b1 { background: #2563eb; } .b2 { background: #16a34a; }
+  .b3 { background: #d97706; } .b4 { background: #0891b2; }
+  .b5 { background: #7c3aed; }
+  .demo-head h2 { font-size: 18px; font-weight: 600; flex: 1; }
+  .demo-head .time { font-size: 12px; color: #94a3b8; font-weight: 500; }
 
-  .key-msg { background: #eff6ff; border-left: 3px solid var(--accent); padding: 10px 16px;
-             margin: 8px 0 4px; border-radius: 0 6px 6px 0; }
-  .key-msg p { font-size: 13px; color: var(--accent); font-weight: 500; line-height: 1.5; }
+  .block { margin-bottom: 16px; }
+  .block h3 { font-size: 14px; font-weight: 600; color: #1e293b; margin-bottom: 6px; }
+  .block ul { list-style: none; }
+  .block li { font-size: 14px; color: #475569; padding: 3px 0 3px 16px;
+              position: relative; line-height: 1.55; }
+  .block li::before { content: '\2013'; position: absolute; left: 0; color: #cbd5e1; }
 
-  .transition { font-size: 13px; color: var(--cyan); font-style: italic; margin-top: 12px;
-                padding-top: 10px; border-top: 1px solid var(--border); }
+  .say { color: #1e293b; font-style: italic; }
+
+  .msg { background: #f0f7ff; border-left: 3px solid #2563eb; padding: 8px 14px;
+         margin: 10px 0 4px; border-radius: 0 6px 6px 0; }
+  .msg p { font-size: 13px; color: #2563eb; font-weight: 500; line-height: 1.5; }
+
+  .transition { font-size: 13px; color: #0891b2; margin-top: 10px; padding-top: 10px;
+                border-top: 1px solid #e2e6ed; }
 
   .tips { background: #fffbeb; border: 1px solid #fde68a; border-radius: 10px;
-          padding: 24px 28px; margin-top: 24px; }
-  .tips h2 { font-size: 18px; color: var(--orange); margin-bottom: 14px; }
-  .tips ol { padding-left: 20px; }
-  .tips li { font-size: 14px; color: var(--text); margin-bottom: 10px; line-height: 1.5; }
-  .tips li strong { color: var(--orange); }
+          padding: 18px 22px; margin-top: 24px; }
+  .tips h3 { font-size: 15px; color: #d97706; margin-bottom: 10px; }
+  .tips li { font-size: 13px; color: #1e293b; margin-bottom: 6px; line-height: 1.5; }
 
-  .closing-list { list-style: none; padding: 0; }
-  .closing-list li { font-size: 14px; padding: 6px 0 6px 14px; position: relative; color: var(--text); }
-  .closing-list li::before { content: ''; position: absolute; left: 0; top: 14px;
-                             width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-
-  @media print {
-    body { max-width: 100%; padding: 20px; }
-    .section { page-break-inside: avoid; }
-  }
+  @media print { body { max-width: 100%; padding: 20px; } .demo { page-break-inside: avoid; } }
 </style>
 </head>
 <body>
 
-<h1>Welcome to QueryStudio</h1>
-<div class="subtitle">Your Enterprise Data Platform &mdash; Demo Talking Points &mdash; April 24, 2026</div>
-
-<div class="section" style="background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%); border-color: #bfdbfe;">
-  <p style="font-size: 16px; color: var(--text); line-height: 1.7; margin-bottom: 10px;">
-    <strong>QueryStudio</strong> is an enterprise self-service data platform. End users connect to any data source &mdash;
-    on-prem S3 (Dell ECS, MinIO), AWS S3, Snowflake, Oracle, Databricks, Trino, or local files &mdash;
-    and query data visually without writing SQL. Partition-aware execution on Iceberg tables turns
-    45-minute scans into 5-second queries. Results run asynchronously and persist for 7 days.
-  </p>
-  <p style="font-size: 14px; color: var(--muted); line-height: 1.6;">
-    Built-in scheduling, saved queries, published data views, feed generation (S3/Oracle/SFTP),
-    dashboards, business reports, data catalog, role-based access, and full audit trail.
-    Runs on OpenShift (on-prem) and AWS EKS (cloud). No vendor lock-in.
-  </p>
+<div class="header">
+  <h1>Welcome to QueryStudio</h1>
+  <p>Your Enterprise Data Platform &mdash; Demo Talking Points &mdash; April 24, 2026</p>
 </div>
 
-<!-- OVERVIEW -->
-<div class="section">
-  <div class="section-header">
-    <span class="section-badge">OVERVIEW</span>
-    <h2>Opening</h2>
-    <span class="time">30 seconds</span>
-  </div>
-  <ul class="closing-list">
-    <li>QueryStudio is a self-service data platform that lets end users query data across S3 data lakes, databases, and local files &mdash; without writing code.</li>
-    <li>Visual query builder, partition-aware execution, async results, export.</li>
-    <li>Runs on-prem (OpenShift) and cloud (AWS EKS). No vendor lock-in.</li>
-  </ul>
+<div class="intro">
+  <p><strong>QueryStudio</strong> lets end users connect to any data source (on-prem S3, AWS S3, Oracle, Snowflake, local files),
+  build queries visually, and get results fast. Partition-aware execution on Iceberg tables &mdash; 45 min down to 5 sec.
+  Async results persist 7 days. Scheduling, feeds, dashboards, catalog, RBAC, full audit trail. Runs on OpenShift and AWS EKS.</p>
 </div>
 
-<!-- DEMO 1 -->
-<div class="section">
-  <div class="section-header">
-    <span class="section-badge">DEMO 1</span>
-    <h2>Create Source Connections</h2>
+
+<!-- ════════════ DEMO 1 ════════════ -->
+<div class="demo">
+  <div class="demo-head">
+    <span class="badge b1">DEMO 1</span>
+    <h2>Connect to Data Sources</h2>
     <span class="time">5&ndash;7 min</span>
   </div>
-  <div class="slide-ref">Slides: "Connect to Any Data Source" + "Setting Up a Connection"</div>
 
-  <div class="point">
-    <h3>1. On-Prem S3 (Dell ECS / MinIO)</h3>
+  <div class="block">
+    <h3>On-Prem S3 (Dell ECS / MinIO)</h3>
     <ul>
       <li>Click "New Connection" &rarr; select "S3 (On-Premises)"</li>
-      <li>Enter: endpoint URL, bucket name, access key, secret key</li>
-      <li>Toggle "Path-style access" ON (required for on-prem S3)</li>
-      <li>Click "Test Connection" &rarr; green checkmark = success</li>
-      <li>Click "Save" &rarr; connection appears in sidebar</li>
+      <li>Enter endpoint URL, bucket name, access key, secret key</li>
+      <li>Toggle <strong>Path-style access ON</strong> &mdash; required for Dell ECS and MinIO, without this it won't connect</li>
+      <li>Click "Test Connection" &rarr; green checkmark means we can read the bucket</li>
+      <li>Save &rarr; connection appears in sidebar, ready to browse</li>
+      <li><span class="say">"We connect directly to on-prem S3. No gateway, no middleware, no special setup."</span></li>
     </ul>
-    <div class="key-msg">
-      <p>"We support on-prem S3 natively. No special configuration, no gateway. Direct connection to your Dell ECS or MinIO storage."</p>
-    </div>
   </div>
 
-  <div class="point">
-    <h3>2. Cloud S3 (AWS)</h3>
+  <div class="block">
+    <h3>AWS S3 (Cloud)</h3>
     <ul>
       <li>Click "New Connection" &rarr; select "AWS S3"</li>
-      <li>Enter: bucket name, region (dropdown), access key ID, secret key</li>
-      <li>OR: select "IAM Role" auth mode (no keys needed in AWS environment)</li>
-      <li>Click "Test Connection" &rarr; validates bucket access</li>
+      <li>Enter bucket name, pick region from dropdown</li>
+      <li>Auth: either IAM Role (no keys needed when running in AWS) or access key + secret key</li>
+      <li>Test &rarr; Save &rarr; same sidebar experience as on-prem</li>
+      <li><span class="say">"Same interface whether data is on-prem or in AWS. End users don't see the difference."</span></li>
     </ul>
-    <div class="key-msg">
-      <p>"Same interface for cloud and on-prem. End users don't need to know where the data lives."</p>
-    </div>
   </div>
 
-  <div class="point">
-    <h3>3. Local Parquet Files</h3>
+  <div class="block">
+    <h3>Local Files</h3>
     <ul>
-      <li>Click "New Connection" &rarr; select "Local Folder"</li>
-      <li>Browse or enter path to parquet directory</li>
-      <li>OR: Drag-and-drop parquet files into "Upload" connection</li>
-      <li>Files appear immediately in the sidebar file browser</li>
+      <li>Click "New Connection" &rarr; "Local Folder" or use the Upload area</li>
+      <li>Drag-and-drop Parquet, CSV, or Excel files &mdash; they show up immediately</li>
+      <li>Good for quick one-off analysis or when data hasn't been loaded to S3 yet</li>
+      <li><span class="say">"For quick analysis, end users just upload a file and start querying. Self-service."</span></li>
     </ul>
-    <div class="key-msg">
-      <p>"For quick analysis, end users can upload parquet/CSV/Excel files directly. Self-service."</p>
-    </div>
   </div>
 
+  <div class="msg"><p>Key point: one platform, three source types, same query experience across all of them.</p></div>
   <div class="transition">Transition: "Now that we have connections, let's query some data..."</div>
 </div>
 
-<!-- DEMO 2 -->
-<div class="section">
-  <div class="section-header">
-    <span class="section-badge green">DEMO 2</span>
+
+<!-- ════════════ DEMO 2 ════════════ -->
+<div class="demo">
+  <div class="demo-head">
+    <span class="badge b2">DEMO 2</span>
     <h2>Partitions &amp; Query Execution</h2>
     <span class="time">7&ndash;10 min</span>
   </div>
-  <div class="slide-ref">Slides: "Partition Pruning" + "Same Data, Same Question" + "Visual Query Builder"</div>
 
-  <div class="point">
-    <h3>1. Open the Query Builder</h3>
+  <div class="block">
+    <h3>Open an Iceberg Table</h3>
     <ul>
-      <li>Click on an S3 connection in the sidebar</li>
-      <li>Browse the folder structure &rarr; find an iceberg table</li>
-      <li>Click the table name &rarr; columns and partitions auto-detected</li>
+      <li>Click on the S3 connection in sidebar &rarr; browse folder structure</li>
+      <li>Click on an iceberg table &rarr; columns and partitions get auto-detected</li>
+      <li><span class="say">"QueryStudio reads the Iceberg metadata automatically. No one had to configure this &mdash; it just picks it up."</span></li>
     </ul>
-    <div class="key-msg">
-      <p>"QueryStudio automatically detects iceberg table format and reads partition metadata. No manual configuration."</p>
-    </div>
   </div>
 
-  <div class="point">
-    <h3>2. Explain Partitions (use slide diagram)</h3>
+  <div class="block">
+    <h3>Explain Partition Pruning</h3>
     <ul>
-      <li>"Iceberg tables split data into partitions &mdash; typically by date."</li>
-      <li>"A table with 2 years of daily data has ~730 partitions."</li>
-      <li>"Without partition pruning, querying this table reads ALL partitions &mdash; potentially terabytes of data."</li>
-      <li>"With partition pruning, we only read the partitions you need."</li>
-      <li>SHOW the partition selector panel in the UI:</li>
-      <li style="padding-left:36px;">Date-aware quick filters: "Last 7 days", "Last 30 days", "This Month"</li>
-      <li style="padding-left:36px;">Manual selection: check/uncheck specific partition values</li>
-      <li style="padding-left:36px;">"Select All" / "None" / "Invert" toggles</li>
+      <li>Iceberg tables split data into partitions, usually by date</li>
+      <li>2 years of daily data = roughly 730 partitions, each partition is a separate set of Parquet files on S3</li>
+      <li>Without pruning: query reads ALL 730 partitions &mdash; that's ~2.4 TB, takes 45+ minutes</li>
+      <li>With pruning: we only read the partitions the end user selected &mdash; say 7 days = 7 partitions, maybe 6 GB, done in 5 seconds</li>
+      <li>Show the partition selector: "Last 7 days", "Last 30 days", "This Month", or manual check/uncheck</li>
+      <li><span class="say">"This is the single biggest performance win. Same data, same question &mdash; 45 minutes vs 5 seconds. It's automatic."</span></li>
     </ul>
-    <div class="key-msg">
-      <p>"This is the difference between a 45-minute query and a 5-second query. Same data, same question &mdash; just smarter execution."</p>
-    </div>
   </div>
 
-  <div class="point">
-    <h3>3. Build a Query</h3>
+  <div class="block">
+    <h3>Build &amp; Run a Query</h3>
     <ul>
-      <li>Select columns from the column picker (drag or checkbox)</li>
+      <li>Pick columns from the column picker (drag or checkbox)</li>
       <li>Add a filter: e.g., amount &gt; 1000</li>
-      <li>Select partitions: e.g., "Last 30 days"</li>
-      <li>Show the SQL preview panel: "This is the SQL that will execute"</li>
+      <li>Select partitions: "Last 30 days"</li>
+      <li>Point out the SQL preview panel &mdash; <span class="say">"The SQL is always visible. End users don't need to write it, but they can see exactly what's running."</span></li>
+      <li>Click "Run Query" &rarr; show real-time progress bar (updates via WebSocket)</li>
+      <li>Results appear in data grid &mdash; point out row count, execution time, partitions scanned vs total</li>
+      <li><span class="say">"Completed in X seconds, scanned Y partitions out of Z total. That's the pruning at work."</span></li>
     </ul>
-    <div class="key-msg">
-      <p>"End users build queries visually. No SQL knowledge required. But the SQL is always visible for those who want it."</p>
-    </div>
   </div>
 
-  <div class="point">
-    <h3>4. Execute the Query</h3>
-    <ul>
-      <li>Click "Run Query"</li>
-      <li>Show the progress indicator (real-time via WebSocket)</li>
-      <li>Results appear in the data grid</li>
-      <li>Show row count, execution time, data scanned</li>
-    </ul>
-    <div class="key-msg">
-      <p>"Query completed in X seconds, scanning only Y partitions out of Z total. That's partition intelligence at work."</p>
-    </div>
-  </div>
-
-  <div class="transition">Transition: "Now let's save this query for future use..."</div>
+  <div class="msg"><p>Key point: end users just pick a date range. The platform handles which files to read and which to skip.</p></div>
+  <div class="transition">Transition: "Now let's save this query so we can reuse it..."</div>
 </div>
 
-<!-- DEMO 3 -->
-<div class="section">
-  <div class="section-header">
-    <span class="section-badge orange">DEMO 3</span>
-    <h2>Save Query</h2>
+
+<!-- ════════════ DEMO 3 ════════════ -->
+<div class="demo">
+  <div class="demo-head">
+    <span class="badge b3">DEMO 3</span>
+    <h2>Save &amp; Reuse Queries</h2>
     <span class="time">2&ndash;3 min</span>
   </div>
-  <div class="slide-ref">Slide: "Save &amp; Reuse Queries"</div>
 
-  <div class="point">
-    <h3>1. Save the Query</h3>
+  <div class="block">
+    <h3>Save</h3>
     <ul>
-      <li>Click "Save Query" button</li>
-      <li>Enter a meaningful name: e.g., "GL Transactions &mdash; Last 30 Days"</li>
-      <li>Add description: "Monthly GL transaction summary for finance team"</li>
-      <li>Click "Save"</li>
-    </ul>
-    <div class="key-msg">
-      <p>"Queries are saved with their full configuration &mdash; tables, columns, filters, partitions. Not just the SQL text."</p>
-    </div>
-  </div>
-
-  <div class="point">
-    <h3>2. Show Saved Queries</h3>
-    <ul>
-      <li>Open the "Saved Queries" panel in the sidebar</li>
-      <li>Show the list of previously saved queries</li>
-      <li>Click a saved query &rarr; entire query builder state restores</li>
-    </ul>
-    <div class="key-msg">
-      <p>"End users don't start from scratch each time. Build once, reuse forever. Saved queries can also be scheduled for automated execution."</p>
-    </div>
-  </div>
-
-  <div class="point">
-    <h3>3. Mention Additional Capabilities (don't demo, just mention)</h3>
-    <ul>
-      <li>"Saved queries can be published as 'Published Views' &mdash; read-only data endpoints that other teams can consume."</li>
-      <li>"They can also be used as feed sources for automated data delivery."</li>
+      <li>Click "Save Query" &rarr; enter name (e.g., "GL Transactions &mdash; Last 30 Days") and description</li>
+      <li>This saves the <strong>full configuration</strong>: tables, columns, filters, partitions, joins &mdash; not just the SQL text</li>
+      <li><span class="say">"The entire query setup is preserved. Next time you open it, everything is exactly where you left it."</span></li>
     </ul>
   </div>
 
+  <div class="block">
+    <h3>Reload</h3>
+    <ul>
+      <li>Open "Saved Queries" in sidebar &rarr; click a saved query &rarr; full state restores in query builder</li>
+      <li>Modify if needed and re-run &mdash; no rebuilding from scratch</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <h3>Beyond Saving (mention, don't demo)</h3>
+    <ul>
+      <li><strong>Publish</strong> &mdash; saved queries can become read-only "Published Views" that other teams consume as data endpoints</li>
+      <li><strong>Schedule</strong> &mdash; set up daily or weekly automated execution</li>
+      <li><strong>Feed source</strong> &mdash; use as input for automated data delivery to S3, Oracle, or SFTP</li>
+    </ul>
+  </div>
+
+  <div class="msg"><p>Key point: build once, reuse forever. Queries become reusable assets, not throwaway work.</p></div>
   <div class="transition">Transition: "But what about large queries that take time?"</div>
 </div>
 
-<!-- DEMO 4 -->
-<div class="section">
-  <div class="section-header">
-    <span class="section-badge cyan">DEMO 4</span>
-    <h2>See Results Later</h2>
+
+<!-- ════════════ DEMO 4 ════════════ -->
+<div class="demo">
+  <div class="demo-head">
+    <span class="badge b4">DEMO 4</span>
+    <h2>Submit &amp; Walk Away</h2>
     <span class="time">3&ndash;5 min</span>
   </div>
-  <div class="slide-ref">Slide: "Submit &amp; Walk Away"</div>
 
-  <div class="point">
-    <h3>1. Submit a Large Query</h3>
+  <div class="block">
+    <h3>Submit a Large Query</h3>
     <ul>
-      <li>Select a larger dataset (more partitions, more rows)</li>
-      <li>Click "Run Query"</li>
-      <li>Show: progress bar with percentage and row count</li>
+      <li>Pick a bigger dataset (more partitions, more rows) and click "Run Query"</li>
+      <li>Show the progress bar with percentage and row count updating in real time</li>
+      <li><span class="say">"This is running on the server. I don't need to keep the browser open."</span></li>
     </ul>
-    <div class="key-msg">
-      <p>"For large queries, execution runs in the background. You don't need to keep the browser open."</p>
-    </div>
   </div>
 
-  <div class="point">
-    <h3>2. Close the Browser / Navigate Away</h3>
+  <div class="block">
+    <h3>Close &amp; Come Back</h3>
     <ul>
-      <li>"Let me close this tab and come back later..."</li>
-      <li>Re-open QueryStudio</li>
+      <li>Close the browser tab &mdash; <span class="say">"Let me close this and come back later."</span></li>
+      <li>Re-open QueryStudio &rarr; navigate to Execution History</li>
+      <li>The query continued running on the server. Results are persisted for 7 days.</li>
     </ul>
-    <div class="key-msg">
-      <p>"The query continues running on the server. Results are persisted for 7 days."</p>
-    </div>
   </div>
 
-  <div class="point">
-    <h3>3. Show Execution History</h3>
+  <div class="block">
+    <h3>Execution History</h3>
     <ul>
-      <li>Navigate to "Execution History" page (or Downloads)</li>
-      <li>Show the list of past executions with status:</li>
-      <li style="padding-left:36px;">Green = Completed (ready to download)</li>
-      <li style="padding-left:36px;">Yellow = Running (still processing)</li>
-      <li style="padding-left:36px;">Red = Failed (with error message)</li>
-      <li>Click on a completed execution &rarr; see results in data grid</li>
+      <li>Show the list: Green = Completed, Yellow = Running, Red = Failed (with error message)</li>
+      <li>Click a completed execution &rarr; results load in data grid</li>
+      <li>Shows: query name, status, row count, duration, timestamp &mdash; full trail of what ran</li>
+      <li><span class="say">"Complete visibility. You can see what ran, when, how long, how many rows. Audit trail for everything."</span></li>
     </ul>
-    <div class="key-msg">
-      <p>"Full visibility into what ran, when, how long, how many rows. Complete audit trail."</p>
-    </div>
   </div>
 
-  <div class="point">
-    <h3>4. Download Results</h3>
+  <div class="block">
+    <h3>Download</h3>
     <ul>
-      <li>Show "Download" button &rarr; CSV export</li>
-      <li>Show "Export" dropdown &rarr; Excel, JSON options</li>
+      <li>Download button &rarr; CSV. Export dropdown &rarr; Excel, JSON.</li>
+      <li><span class="say">"One click to get data out in whatever format the team needs."</span></li>
     </ul>
-    <div class="key-msg">
-      <p>"Results can be downloaded in multiple formats. Share with anyone."</p>
-    </div>
   </div>
+
+  <div class="msg"><p>Key point: end users don't wait around. Submit, walk away, results are there when they come back.</p></div>
 </div>
 
-<!-- CLOSING -->
-<div class="section">
-  <div class="section-header">
-    <span class="section-badge red">CLOSING</span>
+
+<!-- ════════════ CLOSING ════════════ -->
+<div class="demo">
+  <div class="demo-head">
+    <span class="badge b5">CLOSING</span>
     <h2>Wrap Up</h2>
     <span class="time">1&ndash;2 min</span>
   </div>
-  <div class="slide-ref">Slide: "QueryStudio &mdash; Self-Service Data Platform"</div>
 
-  <div class="point">
-    <h3>Key Messages to Reinforce</h3>
-    <ul class="closing-list">
-      <li>"Connect to any data source &mdash; S3, databases, local files"</li>
-      <li>"Partition-aware execution &mdash; fast queries on large datasets"</li>
-      <li>"Visual query builder &mdash; no SQL required, but SQL always available"</li>
-      <li>"Async execution &mdash; submit and walk away, results persist 7 days"</li>
-      <li>"Enterprise-grade &mdash; audit trail, role-based access, scheduling"</li>
+  <div class="block">
+    <h3>Reinforce</h3>
+    <ul>
+      <li>Connect to any data source &mdash; S3, databases, local files</li>
+      <li>Partition-aware execution &mdash; big queries, fast results</li>
+      <li>Visual query builder &mdash; no SQL required, but always visible</li>
+      <li>Async execution &mdash; submit and walk away, results persist 7 days</li>
+      <li>Enterprise features &mdash; audit trail, role-based access, scheduling</li>
     </ul>
   </div>
 
-  <div class="point" style="margin-top:18px;">
-    <h3>What's Next (if asked)</h3>
+  <div class="block">
+    <h3>What's Coming (if asked)</h3>
     <ul>
-      <li>"We're building automated ETL pipelines with step-by-step auditing"</li>
-      <li>"Feed generation for Oracle delivery is already live"</li>
-      <li>"NL chatbot for natural language queries is in progress"</li>
-      <li>"Data catalog for self-service discovery is operational"</li>
+      <li>ETL pipeline framework &mdash; step-by-step audited execution</li>
+      <li>Feed generation to Oracle &mdash; already live</li>
+      <li>NL chatbot &mdash; natural language queries, in progress</li>
+      <li>Data catalog &mdash; self-service discovery, operational</li>
     </ul>
   </div>
 </div>
 
-<!-- TIPS -->
+
+<!-- ════════════ TIPS ════════════ -->
 <div class="tips">
-  <h2>Tips for the Demo</h2>
-  <ol>
-    <li><strong>Pre-load data:</strong> Make sure your demo S3 bucket has a good iceberg table with date partitions. Ideally GL or trading data the audience recognizes.</li>
-    <li><strong>Pre-create one connection:</strong> Have at least one working connection ready. Create the second one live during demo.</li>
-    <li><strong>Keep queries fast:</strong> Use small date ranges (7 days) so results come back in under 10 seconds.</li>
-    <li><strong>Have a fallback:</strong> If live demo breaks, have screenshots ready. "Let me show you what this normally looks like..."</li>
-    <li><strong>Focus on value, not features:</strong> Don't say "we added partition pruning." Say "queries that took 45 minutes now take 5 seconds."</li>
-    <li><strong>Know your audience:</strong> If finance people &mdash; use GL/accounting examples. If trading &mdash; use trade/position examples. Use their language.</li>
-  </ol>
+  <h3>Quick Tips</h3>
+  <ul>
+    <li>Have one connection pre-created as backup. Create the second one live.</li>
+    <li>Use 7-day date range so queries return in under 10 seconds.</li>
+    <li>Have screenshots ready if live demo breaks.</li>
+    <li>Don't say "we added partition pruning." Say "45 minutes down to 5 seconds."</li>
+    <li>Use examples the audience knows &mdash; GL data for finance, trade data for trading.</li>
+  </ul>
 </div>
 
 </body>
